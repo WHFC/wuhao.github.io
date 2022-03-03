@@ -1,0 +1,24 @@
+关于AMM解决滑点、无常损失问题的新认知 
+https://www.sohu.com/a/435988225_100217347?sec=wd
+解析——什么是ERC-1155
+https://zhuanlan.zhihu.com/p/389331603
+EIP 777: ERC777 代币标准
+https://learnblockchain.cn/docs/eips/eip-777.html#简要说明
+通缩分红币Safemoon解读
+https://blog.csdn.net/biakia0610/article/details/119252509
+去中心化交易所：Uniswap v2白皮书中文版
+https://zhuanlan.zhihu.com/p/255190320
+uniswap v2合约详解
+https://www.jianshu.com/p/4ee9fabbece5
+常用ERC标准学习
+https://www.cnblogs.com/doublenine99shy/p/15364371.html
+以太坊实现智能合约升级的三种代理模式
+https://learnblockchain.cn/article/1102
+使用 EIP1167 创建合约更省 gas
+https://www.jianshu.com/p/48b86578d667
+以太坊使用最小Gas克隆合约-合约工厂
+https://learnblockchain.cn/article/1446
+【DeFi技术解析】去中心化算法银行Compound技术解析之概述篇
+https://zhuanlan.zhihu.com/p/114319666
+【DeFi技术解析】去中心化算法银行Compound技术解析之利率模型篇
+https://zhuanlan.zhihu.com/p/126503548
