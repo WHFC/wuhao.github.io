@@ -1,0 +1,7 @@
+{
+    "goerliUrl" : "https://goerli.infura.io/v3/c2aab6d270a14512b46159ec4494ed08",
+    "goerliMnemonic" : ["57f8034b92c32eee9a75c91d403c700bcb70cc0adedaa414efc6e7d8b5a56137"],
+    "ropstenUrl" : "https://ropsten.infura.io/v3/c2aab6d270a14512b46159ec4494ed08",
+    "ropstenMnemonic" : ["57f8034b92c32eee9a75c91d403c700bcb70cc0adedaa414efc6e7d8b5a56137"],
+    "scankey" : "WPE1V4551HVZ66NW314PP8Q8WX4UW7WSRP"
+}
