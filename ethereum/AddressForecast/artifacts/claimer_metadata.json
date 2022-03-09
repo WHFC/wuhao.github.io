@@ -1,0 +1,62 @@
+{
+	"compiler": {
+		"version": "0.8.7+commit.e28d00a7"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "selfAdd",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "receiver",
+						"type": "address"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"wuhao.github.io/ethereum/AddressForecast/AddressForecast.sol": "claimer"
+		},
+		"evmVersion": "london",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"wuhao.github.io/ethereum/AddressForecast/AddressForecast.sol": {
+			"keccak256": "0x661b584176836ed4eda08c3e7db5b936f390afc8e288c5537e2ac084b082907c",
+			"license": "GPL-3.0",
+			"urls": [
+				"bzz-raw://fba850f673d893881eedfc123de20b6ab475898647db19fd4b33876988a55cb1",
+				"dweb:/ipfs/QmfVGQBUYtcsvZNZSKTKD7VALscXbRYAmQifVYoAraD2RT"
+			]
+		}
+	},
+	"version": 1
+}

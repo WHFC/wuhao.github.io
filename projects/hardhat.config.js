@@ -48,7 +48,7 @@ module.exports = {
     }
   },
   paths: {
-    sources: "./contracts/AirToken",
+    sources: "./contracts/WHERC20Token",
     tests: "./test",
     cache: "./cache",
     artifacts: "./artifacts"
