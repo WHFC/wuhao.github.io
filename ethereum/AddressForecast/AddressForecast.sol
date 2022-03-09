@@ -25,7 +25,7 @@ contract AddressForecast {
             _address := mload(0)
         }
     }
-
+    // gas: 1073558 10次
     function callClaim(uint256 times) public {
         for(uint i=0;i<times;++i){
             address to = addressto(address(this), nonce);
@@ -103,16 +103,103 @@ contract AddressForecast {
     function uint256ToBytes32(uint256 value) public pure returns (bytes32) {
         return keccak256(abi.encode(value));
     }
+
+    function abiTest() public pure returns (bytes memory result1, bytes memory result2) {
+        result1 = type(TestContract).creationCode;
+        result2 = abi.encodePacked(result1, abi.encodePacked(uint256(128)), uint256(255));
+    }
+
+    function keccakTest() public pure returns (bytes32 result1, bytes32 result2) {
+        bytes memory creationCode = type(TestContract).creationCode;
+        bytes memory params = abi.encodePacked(uint256(1), uint256(2));
+        result1 = keccak256(abi.encodePacked(creationCode, params));
+        result2 = keccak256(abi.encodePacked(abi.encodePacked(creationCode), params));
+    }
+
+    /**
+     * @dev Deploys and returns the address of a clone that mimics the behaviour of `master`.
+     *
+     * This function uses the create opcode, which should never revert.
+     */
+    function clone(address master) internal returns (address instance) {
+        // solhint-disable-next-line no-inline-assembly
+        assembly {
+            let ptr := mload(0x40)
+            mstore(ptr, 0x3d602d80600a3d3981f3363d3d373d3d3d363d73000000000000000000000000)
+            mstore(add(ptr, 0x14), shl(0x60, master))
+            mstore(add(ptr, 0x28), 0x5af43d82803e903d91602b57fd5bf30000000000000000000000000000000000)
+            instance := create(0, ptr, 0x37)
+        }
+        require(instance != address(0), "ERC1167: create failed");
+    }
+
+    /**
+     * @dev Deploys and returns the address of a clone that mimics the behaviour of `master`.
+     *
+     * This function uses the create2 opcode and a `salt` to deterministically deploy
+     * the clone. Using the same `master` and `salt` multiple time will revert, since
+     * the clones cannot be deployed twice at the same address.
+     */
+    function cloneDeterministic(address master, bytes32 salt) internal returns (address instance) {
+        // solhint-disable-next-line no-inline-assembly
+        assembly {
+            let ptr := mload(0x40)
+            mstore(ptr, 0x3d602d80600a3d3981f3363d3d373d3d3d363d73000000000000000000000000)
+            mstore(add(ptr, 0x14), shl(0x60, master))
+            mstore(add(ptr, 0x28), 0x5af43d82803e903d91602b57fd5bf30000000000000000000000000000000000)
+            instance := create2(0, ptr, 0x37, salt)
+        }
+        require(instance != address(0), "ERC1167: create2 failed");
+    }
+
+    /**
+     * @dev Computes the address of a clone deployed using {Clones-cloneDeterministic}.
+     */
+    function predictDeterministicAddress(address master, bytes32 salt, address deployer) internal pure returns (address predicted) {
+        // solhint-disable-next-line no-inline-assembly
+        assembly {
+            let ptr := mload(0x40)
+            mstore(ptr, 0x3d602d80600a3d3981f3363d3d373d3d3d363d73000000000000000000000000)
+            mstore(add(ptr, 0x14), shl(0x60, master))
+            mstore(add(ptr, 0x28), 0x5af43d82803e903d91602b57fd5bf3ff00000000000000000000000000000000)
+            mstore(add(ptr, 0x38), shl(0x60, deployer))
+            mstore(add(ptr, 0x4c), salt)
+            mstore(add(ptr, 0x6c), keccak256(ptr, 0x37))
+            predicted := keccak256(add(ptr, 0x37), 0x55)
+        }
+    }
+    // gas: 1298025 10次
+    function callClaim2(uint256 times) public {
+        claimer2 c = new claimer2();
+        for(uint i=1;i<times;++i){
+            claimer2 to = claimer2(clone(address(c)));
+            to.callClaim(address(msg.sender));
+        }
+        c.callClaim(address(msg.sender));
+    }
 }
 
 contract claimer{
     constructor(address selfAdd, address receiver){
-        address contra = address(0x5e17b14ADd6c386305A32928F985b29bbA34Eff5);
+        address contra = address(0xd9145CCE52D386f254917e481eB44e9943F39138);
         airdrop(contra).claim();
         uint256 balance = airdrop(contra).balanceOf(selfAdd);
         require(balance > 0,'Oh no');
         airdrop(contra).transfer(receiver, balance);   // 1102178 10次
         selfdestruct(payable(address(msg.sender))); // 1077052 10次
+    }
+}
+
+contract claimer2{
+    constructor(){
+    }
+    function callClaim(address receiver) external {
+        address contra = address(0xd9145CCE52D386f254917e481eB44e9943F39138);
+        airdrop(contra).claim();
+        uint256 balance = airdrop(contra).balanceOf(address(this));
+        require(balance > 0,'Oh no');
+        airdrop(contra).transfer(receiver, balance);
+        selfdestruct(payable(address(msg.sender)));
     }
 }
 
