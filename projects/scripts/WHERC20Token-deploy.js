@@ -4,6 +4,7 @@
 // When running the script with `npx hardhat run <script>` you'll find the Hardhat
 // Runtime Environment's members available in the global scope.
 const { ethers } = require("hardhat");
+const { writeAddr } = require('../actions/artifact_log.js');
 
 async function main() {
   // Hardhat always runs the compile task when running scripts with its command
@@ -18,8 +19,13 @@ async function main() {
   const token = await WHERC20Token.deploy();
 
   await token.deployed();
+  await writeAddr(token.address, "WHERC20Token", network.name);
 
-  console.log("ATC deployed to:", token.address);
+  console.log("WHERC20Token deployed to:", token.address);
+  const vault = await ethers.getContractFactory("vault");
+  const vaulttoken = await vault.deploy(token.address);
+  console.log("vault deployed to:", vaulttoken.address);
+  await writeAddr(vaulttoken.address, "vault", network.name);
 }
 
 // We recommend this pattern to be able to use async/await everywhere

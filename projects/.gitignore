@@ -4,3 +4,7 @@
 /node_modules
 /package.json
 /package-lock.json
+/vite-project/.vscode
+/vite-project/node_modules
+/vite-project/package.json
+/vite-project/package-lock.json

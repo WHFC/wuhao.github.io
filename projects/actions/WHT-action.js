@@ -13,7 +13,7 @@ async function main() {
   // 查询owner的余额
   console.log("balance of this: " + owner.address + ", value: " + await WHT.balanceOf(owner.address));
   // let value = '1000000000000000000';
-  let value = ethers.utils.parseEther('100');
+  let value = ethers.utils.parseEther('1000000');
 
   // 增发代币并查询余额
   await WHT.mint(owner.address, value);
