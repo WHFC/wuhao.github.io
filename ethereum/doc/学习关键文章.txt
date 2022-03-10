@@ -22,3 +22,5 @@ https://learnblockchain.cn/article/1446
 https://zhuanlan.zhihu.com/p/114319666
 【DeFi技术解析】去中心化算法银行Compound技术解析之利率模型篇
 https://zhuanlan.zhihu.com/p/126503548
+【课程】CS 251：加密货币和区块链技术
+cs251.stanford.edu

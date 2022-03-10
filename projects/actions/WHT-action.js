@@ -3,7 +3,7 @@ const { ethers } = require("hardhat");
 async function main() {
   let [owner]  = await ethers.getSigners();
   const WHERC20Token = await ethers.getContractFactory("WHERC20Token");
-  const WHT = await WHERC20Token.attach("0x5FbDB2315678afecb367f032d93F642f64180aa3");
+  const WHT = await WHERC20Token.attach("0x998abeb3E57409262aE5b751f60747921B33613E");
   // const WHT = await WHERC20Token.attach("0xb4c2F523EF36fE4A2dc149cf0a96e73DC5e25829"); // ropsten上发布的合约
 
   console.log("name:" + await WHT.name());

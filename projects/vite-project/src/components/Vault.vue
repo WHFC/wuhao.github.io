@@ -15,6 +15,7 @@ export default {
   data() {
     return {
 
+      account: null,
       recipient: null,
       amount: null,
       balance: null,
@@ -38,7 +39,6 @@ export default {
     await this.initAccount()
     this.initContract()
     this.getInfo();
-    this.getNonce();
   },
 
   methods: {
@@ -104,24 +104,42 @@ export default {
 
     async deposit() {
         try{
-            await this.erc20Token.approve(this.vault.address, this.deposit_amount)
-            await this.vault.deposit(this.deposit_amount)
+            let tx = await this.erc20Token.approve(this.vault.address, ethers.utils.parseUnits(this.deposit_amount, 18))
+            await tx.wait();
+            tx = await this.vault.deposit(ethers.utils.parseUnits(this.deposit_amount, 18))
+            await tx.wait();
+            this.vault_balance = ethers.utils.formatUnits(await this.vault.balanceOf(this.account), 18)
         }catch(error){
           console.log("deposit failed", error)
         }
     },
 
     async withdraw() {
-        try{
-            await this.vault.withdraw(this.withdraw_amount)
-        }catch(error){
-          console.log("withdraw failed", error)
-        }
+        this.vault_balance = 0
+        // try{
+        //     let tx = await this.vault.withdraw(ethers.utils.parseUnits(this.withdraw_amount, 18))
+        //     await tx.wait();
+        //     this.vault_balance = ethers.utils.formatUnits(await this.vault.balanceOf(this.account), 18)
+        // }catch(error){
+        //   console.log("withdraw failed", error)
+        // }
+        this.vault.withdraw(ethers.utils.parseEther(this.withdraw_amount)).then((tx) => {
+          this.provider.waitForTransaction(tx.hash).then((res) => {
+            if (res.status == 1) {
+              this.vault.balanceOf(this.account).then((r) => {
+                this.vault_balance = ethers.utils.formatUnits(r, 18)
+              })
+            }
+            else{
+              console.log("withdraw failed");
+            }
+          })
+        })
     },
 
     async getBalance() {
         try{
-            this.vault_balance = await this.vault.balanceOf(this.account)
+            this.vault_balance = ethers.utils.formatUnits(await this.vault.balanceOf(this.account), 18)
         }catch(error){
           console.log("get balance failed", error)
         }
@@ -129,7 +147,7 @@ export default {
 
     async mint() {
         try{
-            await this.erc20Token.mint(this.mint_address, this.mint_amount)
+            await this.erc20Token.mint(this.mint_address, ethers.utils.parseUnits(this.mint_amount, 18))
         }catch(error){
           console.log("mint failed", error)
         }
@@ -137,18 +155,19 @@ export default {
   }
 }
 
-
 </script>
 
 <template>
   <div >
 
       <div>
+        <br /> 当前账号地址 : {{ account  }}
+        <button @click="initAccount()"> 同步 </button>
         <br /> Token名称 : {{ name  }}
         <br /> Token符号 : {{  symbol }}
         <br /> Token精度 : {{  decimal }}
-        <br /> Token发行量 : {{  supply }}
-        <br /> 我的余额 : {{ balance  }}
+        <br /> Token发行量 : {{  supply }} ETH
+        <br /> 我的余额 : {{ balance  }} ETH
         <button @click="getInfo()"> 查询 </button>
       </div>
 
@@ -156,7 +175,7 @@ export default {
         <br />增发地址:
         <input type="text" v-model="mint_address" />
         <br />增发数量:
-        <input type="text" v-model="mint_amount" />
+        <input type="text" v-model="mint_amount" /> ETH
         <br />
         <button @click="mint()"> 确认 </button>
       </div>
@@ -165,26 +184,26 @@ export default {
         <br />转账到:
         <input type="text" v-model="recipient" />
         <br />转账金额
-        <input type="text" v-model="amount" />
+        <input type="text" v-model="amount" /> ETH
         <br />
         <button @click="transfer()"> 转账 </button>
       </div>
 
       <div>
-        <br /> 银行余额 : {{ vault_balance  }}
+        <br /> 银行余额 : {{ vault_balance  }} ETH
         <button @click="getBalance()"> 查询 </button>
       </div>
 
       <div >
         <br />存款:
-        <input type="text" v-model="deposit_amount" />
+        <input type="text" v-model="deposit_amount" /> ETH
         <br />
         <button @click="deposit()"> 存款 </button>
       </div>
 
       <div >
         <br />取款:
-        <input type="text" v-model="withdraw_amount" />
+        <input type="text" v-model="withdraw_amount" /> ETH
         <br />
         <button @click="withdraw()"> 取款 </button>
       </div>
