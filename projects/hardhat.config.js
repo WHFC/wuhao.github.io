@@ -48,7 +48,7 @@ module.exports = {
     }
   },
   paths: {
-    sources: "./contracts/WHERC20Token",
+    sources: "./contracts/WHERC721Token",
     tests: "./test",
     cache: "./cache",
     artifacts: "./artifacts"
