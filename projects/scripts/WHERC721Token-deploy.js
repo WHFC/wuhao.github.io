@@ -15,17 +15,12 @@ async function main() {
   // await hre.run('compile');
 
   // We get the contract to deploy
-  const WHERC20Token = await ethers.getContractFactory("WHERC20Token");
-  const token = await WHERC20Token.deploy();
+  const WHERC721Token = await ethers.getContractFactory("WHERC721Token");
+  const token = await WHERC721Token.deploy();
 
   await token.deployed();
-  await writeAddr(token.address, "WHERC20Token", network.name);
-
-  console.log("WHERC20Token deployed to:", token.address);
-  const vault = await ethers.getContractFactory("vault");
-  const vaulttoken = await vault.deploy(token.address);
-  console.log("vault deployed to:", vaulttoken.address);
-  await writeAddr(vaulttoken.address, "vault", network.name);
+  await writeAddr(token.address, "WHERC721Token", network.name);
+  console.log("WHERC721Token deployed to:", token.address);
 }
 
 // We recommend this pattern to be able to use async/await everywhere

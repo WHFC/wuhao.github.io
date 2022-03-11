@@ -15,9 +15,9 @@ contract vault {
         token = erc20_token;
     }
 
-    function deposit(uint256 amount) external {
+    function deposit(address depositor, uint256 amount) external {
         require(IERC20(token).transferFrom(msg.sender, address(this), amount), "Transfer from error");
-        depositors[msg.sender] = depositors[msg.sender].add(amount);
+        depositors[depositor] = depositors[depositor].add(amount);
     }
 
     function withdraw(uint256 amount) external {

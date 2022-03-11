@@ -14,11 +14,14 @@ contract WHERC721Token is ERC721 {
     }
 
     constructor() ERC721("WHERC721 NFT", "WHNFT") public {
-
+        owner = msg.sender;
     }
 
     function mint(address to) external onlyOwner {
-        _safeMint(to, index);
-        ++index;
+        _safeMint(to, index++);
+    }
+
+    function nextID() external view returns (uint256) {
+        return index;
     }
 }

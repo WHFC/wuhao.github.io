@@ -1,12 +1,14 @@
 <script setup>
 // This starter template is using Vue 3 <script setup> SFCs
 // Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
-import Vault from './components/Vault.vue'
+// import Vault from './components/Vault.vue'
+import NFT from './components/NFT.vue'
 </script>
 
 <template>
   <div class="wrapper">
-    <Vault />
+    <!-- <Vault /> -->
+    <NFT />
   </div>
 </template>
 
