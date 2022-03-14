@@ -4,17 +4,19 @@ import { ethers } from 'ethers'
 
 import erc721Addr from '../../../deployments/dev/WHERC721Token.json'
 import erc721Abi from '../../../artifacts/contracts/WHERC721Token/WHERC721Token.sol/WHERC721Token.json'
-import { initSqlJs } from 'sql.js';
-import { fs } from 'hardhat';
+// import {GetNFTCount} from '../../../actions/GetNFTCount.js'
+import { writeAddr } from '../../../actions/artifact_log'
+// import sql from 'sql.js';
+// // import fs from '../../../node_modules/fs-extra/lib/fs';
 
 // async function GetNFTCount(address) {
-//     if (!fs.existsSync('./database/test.db'))
-//     {
-//         console.log("no sql db file");
-//         return 0;
-//     }
-//     const SQL = await initSqlJs();
-//     const filebuffer = fs.readFileSync('./database/test.db');
+//     // if (!this.existsSync("./database/test.db"))
+//     // {
+//     //     console.log("no sql db file");
+//     //     return 0;
+//     // }
+//     const SQL = await sql.initSqlJs();
+//     const filebuffer = this.loadFile('../../../database/test.db')
 //     const db = new SQL.Database(filebuffer);
 //     let stmt = db.prepare("SELECT count(*) FROM WHNFT WHERE _from = '" + address + "';");
 //     var lostCount = 0;
@@ -117,7 +119,7 @@ export default {
     },
 
     async getNFTCount() {
-      holded_count = await GetNFTCount(holder);
+      this.holded_count = await GetNFTCount(this.holder);
     },
 
     async mint() {

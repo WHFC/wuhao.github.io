@@ -31,7 +31,7 @@ module.exports = {
       }
     }]
   },
-  defaultNetwork: "dev",
+  defaultNetwork: "ropsten",
   networks : {
     dev: {
       url: "http://127.0.0.1:8545",
@@ -48,7 +48,7 @@ module.exports = {
     }
   },
   paths: {
-    sources: "./contracts/WHERC721Token",
+    sources: "./flattened",
     tests: "./test",
     cache: "./cache",
     artifacts: "./artifacts"

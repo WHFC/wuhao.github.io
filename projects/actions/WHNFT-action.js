@@ -14,10 +14,14 @@ async function main() {
   // 查询owner的持有数量
   console.log("balance of this: " + owner.address + ", count: " + await WHNFT.balanceOf(owner.address));
 
-  let tokenID = WHNFT.nextID();
-  // 增发代币并查询持有数量
-  await WHNFT.mint(owner.address);
-  console.log("balance of this: " + owner.address + ", count: " + await WHNFT.balanceOf(owner.address));
+  var count = 10;
+  let tokenID = 0;
+  while (count-- >= 0) {
+    tokenID = WHNFT.nextID();
+    // 增发代币并查询持有数量
+    await WHNFT.mint(owner.address);
+    console.log("balance of this: " + owner.address + ", count: " + await WHNFT.balanceOf(owner.address));
+  }
 
   // 给目标地址转账并查询持有数量
   let recipient = "0x70997970c51812dc3a010c7d01b50e0d17dc79c8";
