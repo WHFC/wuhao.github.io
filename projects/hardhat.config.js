@@ -22,7 +22,15 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
 module.exports = {
   solidity: {
     compilers : [{
-      version: "0.6.2",
+      version: "0.5.16",
+      settings: {
+        optimizer: {
+          enabled: true,
+          runs: 200
+        }
+      }
+    },{
+      version: "0.6.6",
       settings: {
         optimizer: {
           enabled: true,
@@ -31,7 +39,7 @@ module.exports = {
       }
     }]
   },
-  defaultNetwork: "ropsten",
+  defaultNetwork: "dev",
   networks : {
     dev: {
       url: "http://127.0.0.1:8545",
@@ -48,7 +56,9 @@ module.exports = {
     }
   },
   paths: {
-    sources: "./flattened",
+    // sources: "./contracts/uniswap-v2-core-master/contracts",
+    sources: "./contracts/uniswap-v2-periphery-master/contracts",
+    // sources: "./contracts/UniswapMarket",
     tests: "./test",
     cache: "./cache",
     artifacts: "./artifacts"
