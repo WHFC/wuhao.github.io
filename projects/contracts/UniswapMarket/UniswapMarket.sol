@@ -10,10 +10,10 @@ contract UniswapMarket {
     // address private constant WETH = 0x211848E6fe90c84099Ab46cD92b00cAa6952f4d5;
     // address private constant A = 0x12930419877125535D5F30E7eDB24eD204F6A735;
     // address private constant B = 0x8bBf5E921Dc75B3b8bA949F6cfF64ED250435F29;
-    address private constant router = 0x7874d94b8f9E2a28FCceCE404666C984f33a82b8;
-    address private constant WETH = 0xB25f1f0B4653b4e104f7Fbd64Ff183e23CdBa582;
-    address private constant A = 0x19a0870a66B305BE9917c0F14811C970De18E6fC;
-    address private constant B = 0xfB72aAdB17a855D27A68B565ee0a84CB30A387e4;
+    address private constant router = 0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0;
+    address private constant WETH = 0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512;
+    address private constant A = 0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9;
+    address private constant B = 0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9;
     mapping(address => mapping(address => uint256)) public tokenBalances;
 
     function depositTokenA(uint256 amount) external returns (bool) {
@@ -35,8 +35,10 @@ contract UniswapMarket {
         require(tokenBalances[B][msg.sender] >= amountBDesired, "UniswapMarket: not enough tokenB");
         tokenBalances[A][msg.sender] -= amountADesired;
         tokenBalances[B][msg.sender] -= amountBDesired;
+        require(approveToRouter(A, amountADesired), "UniswapMarket: token A approve to router failed");
+        require(approveToRouter(B, amountBDesired), "UniswapMarket: token B approve to router failed");
         uint256 deadline = block.timestamp + 1 hours;
-        bytes memory payload = abi.encodeWithSignature("addLiquidity(address,address,uint,uint,uint,uint,address,uint)"
+        bytes memory payload = abi.encodeWithSignature("addLiquidity(address,address,uint256,uint256,uint256,uint256,address,uint256)"
         , A
         , B
         , amountADesired
@@ -91,12 +93,33 @@ contract UniswapMarket {
                 result := mload(0)
             }
         }
+        require(result, "UniswapMarket: transfer failed");
         tokenBalances[token][msg.sender] += amount;
     }
 
+    function approveToRouter(address token, uint256 amount) public returns (bool result) {
+        bytes memory payload = abi.encodeWithSignature("approve(address,uint256)", router, amount);
+        assembly {
+            let _result := call(gas(), token, 0, add(payload, 0x20), mload(payload), 0, 0)
+
+            returndatacopy(0, 0, returndatasize())
+
+            switch _result
+            // delegatecall returns 0 on error.
+            case 0 { revert(0, returndatasize()) }
+            default { 
+                result := mload(0)
+            }
+        }
+    }
+
     function buyToken(address tokenIn, address tokenOut, uint256 amountIn, uint256 amountOutMin, address to) internal returns (uint[] memory) {
+        // require(approveToRouter(tokenIn, amountIn), "UniswapMarket: approve to router failed");
         uint256 deadline = block.timestamp + 1 hours;
-        bytes memory payload = abi.encodeWithSignature("swapExactTokensForTokens(uint,uint,address[],address,uint)", amountIn, amountOutMin, [tokenIn, tokenOut], to, deadline);
+        address[] memory path = new address[](2);
+        path[0] = tokenIn;
+        path[1] = tokenOut;
+        bytes memory payload = abi.encodeWithSignature("swapExactTokensForTokens(uint256,uint256,address[],address,uint256)", amountIn, amountOutMin, path, to, deadline);
         assembly {
             let result := delegatecall(gas(), router, add(payload, 0x20), mload(payload), 0, 0)
 
@@ -109,5 +132,6 @@ contract UniswapMarket {
                 return(0, returndatasize())
             }
         }
+        tokenBalances[tokenIn][msg.sender] -= amountIn;
     }
 }

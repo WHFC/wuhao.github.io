@@ -1,0 +1,54 @@
+{
+	"compiler": {
+		"version": "0.6.6+commit.6c089d02"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [],
+		"devdoc": {
+			"methods": {}
+		},
+		"userdoc": {
+			"methods": {}
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"localhost/wuhao.github.io/projects/contracts/uniswap-v2-periphery-master/contracts/libraries/UniswapV2Library.sol": "UniswapV2Library"
+		},
+		"evmVersion": "istanbul",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"localhost/wuhao.github.io/projects/contracts/uniswap-v2-core-master/contracts/interfaces/IUniswapV2Pair.sol": {
+			"keccak256": "0x7c9bc70e5996c763e02ff38905282bc24fb242b0ef2519a003b36824fc524a4b",
+			"urls": [
+				"bzz-raw://85d5ad2dd23ee127f40907a12865a1e8cb5828814f6f2480285e1827dd72dedf",
+				"dweb:/ipfs/QmayKQWJgWmr46DqWseADyUanmqxh662hPNdAkdHRjiQQH"
+			]
+		},
+		"localhost/wuhao.github.io/projects/contracts/uniswap-v2-periphery-master/contracts/libraries/SafeMath.sol": {
+			"keccak256": "0x27f0ea82f879b3b01387b583e6d9d0ec858dca3b22b0aad173f8fbda06e761e1",
+			"urls": [
+				"bzz-raw://0db9cf37793eb7035f0bfced36323d240f0212150009c39a3a108701d9b50b6c",
+				"dweb:/ipfs/QmUAdiG9XNcieXkKfiMB49zQqD34FbXFE15csV2KQzwEqg"
+			]
+		},
+		"localhost/wuhao.github.io/projects/contracts/uniswap-v2-periphery-master/contracts/libraries/UniswapV2Library.sol": {
+			"keccak256": "0x999b04e37f5267d241fb5a71d833e0fed0891373a6f209e89d2b69f3e64d3aa6",
+			"urls": [
+				"bzz-raw://368745d77775faf1efeecbcf9f5696585c4ecd9827da030aacf43337a487f721",
+				"dweb:/ipfs/Qma2gy6YbJwgwpi1Re2ZeAcgeM6UPv8gdTV7zDWpV5NfGU"
+			]
+		}
+	},
+	"version": 1
+}

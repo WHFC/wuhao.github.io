@@ -37,9 +37,17 @@ module.exports = {
           runs: 200
         }
       }
+    },{
+      version: "0.8.0",
+      settings: {
+        optimizer: {
+          enabled: true,
+          runs: 200
+        }
+      }
     }]
   },
-  defaultNetwork: "ropsten",
+  defaultNetwork: "dev",
   networks : {
     dev: {
       url: "http://127.0.0.1:8545",
@@ -59,7 +67,10 @@ module.exports = {
     // sources: "./contracts/uniswap-v2-core-master/contracts",
     // sources: "./contracts/uniswap-v2-periphery-master/contracts",
     // sources: "./contracts/UniswapMarket",
-    sources: "./flattened/AirToken",
+    // sources: "./flattened/uniswap-v2-core-master",
+    // sources: "./flattened/uniswap-v2-periphery-master",
+    // sources: "./flattened/AirToken",
+    sources: "./contracts/UniswapMarket",
     tests: "./test",
     cache: "./cache",
     artifacts: "./artifacts"
