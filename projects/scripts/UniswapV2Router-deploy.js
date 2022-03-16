@@ -5,7 +5,9 @@
 // Runtime Environment's members available in the global scope.
 const { ethers } = require("hardhat");
 const { writeAddr } = require('../actions/artifact_log.js');
-const { abi, bytecode } = require('../artifacts/contracts/uniswap-v2-core-master/contracts/UniswapV2Factory.sol/UniswapV2Factory.json');
+const { abi:routerAbi, bytecode:routerBytecode } = require('../artifacts/flattened/uniswap-v2-periphery-master/UniswapV2Router02.sol/UniswapV2Router02.json');
+const { abi:wethAbi, bytecode:wethBytecode } = require('../artifacts/contracts/uniswap-v2-periphery-master/contracts/test/WETH9.sol/WETH9.json');
+const factoryAddr = require(`../deployments/${network.name}/UniswapV2Factory.json`)
 
 async function main() {
   // Hardhat always runs the compile task when running scripts with its command
@@ -17,12 +19,17 @@ async function main() {
 
   // We get the contract to deploy
   let [owner]  = await ethers.getSigners();
-  const UniswapV2Factory = await new ethers.ContractFactory(abi, bytecode, owner);
-  const factory = await UniswapV2Factory.deploy(owner.address);
-  await factory.deployed();
-  console.log("UniswapV2Factory deployed to:", factory.address);
-  await writeAddr(factory.address, "UniswapV2Factory", network.name);
-  console.log("pair init code hash: ", await factory.getPairInitCode());
+  const WETH9 = await new ethers.ContractFactory(wethAbi, wethBytecode, owner);
+  const weth = await WETH9.deploy();
+  await weth.deployed();
+  console.log("WETH9 deployed to:", weth.address);
+  await writeAddr(weth.address, "WETH9", network.name);
+
+  const UniswapV2Router02 = await new ethers.ContractFactory(routerAbi, routerBytecode, owner);
+  const router = await UniswapV2Router02.deploy(factoryAddr.address, weth.address);
+  await router.deployed();
+  console.log("UniswapV2Router02 deployed to:", router.address);
+  await writeAddr(router.address, "UniswapV2Router02", network.name);
 }
 
 // We recommend this pattern to be able to use async/await everywhere

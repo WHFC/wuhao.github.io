@@ -3,7 +3,9 @@
 //
 // When running the script with `npx hardhat run <script>` you'll find the Hardhat
 // Runtime Environment's members available in the global scope.
-const hre = require("hardhat");
+const { ethers } = require("hardhat");
+const { writeAddr } = require('../actions/artifact_log.js');
+const { abi, bytecode } = require('../artifacts/flattened/AirToken/AirToken.sol/AirToken.json');
 
 async function main() {
   // Hardhat always runs the compile task when running scripts with its command
@@ -14,12 +16,14 @@ async function main() {
   // await hre.run('compile');
 
   // We get the contract to deploy
-  const AirToken = await hre.ethers.getContractFactory("AirToken");
-  const airToken = await AirToken.deploy("Air Token", "ATC");
-
-  await airToken.deployed();
-
-  console.log("ATC deployed to:", airToken.address);
+  let [owner]  = await ethers.getSigners();
+  const AirToken = await new ethers.ContractFactory(abi, bytecode, owner);
+  const token = await AirToken.deploy("AirToken", "AT");
+  await token.deployed();
+  console.log("token deployed to:", token.address);
+  const token2 = await AirToken.deploy("WHToken", "WHT");
+  await token2.deployed();
+  console.log("token2 deployed to:", token2.address);
 }
 
 // We recommend this pattern to be able to use async/await everywhere

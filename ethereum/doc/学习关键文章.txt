@@ -24,3 +24,7 @@ https://zhuanlan.zhihu.com/p/114319666
 https://zhuanlan.zhihu.com/p/126503548
 【课程】CS 251：加密货币和区块链技术
 cs251.stanford.edu
+登链翻译计划
+https://github.com/lbc-team/Pioneer
+scaffold-eth(一套脚手架框架)
+https://github.com/scaffold-eth/scaffold-eth.git

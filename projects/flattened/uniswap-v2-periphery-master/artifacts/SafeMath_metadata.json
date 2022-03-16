@@ -1,0 +1,40 @@
+{
+	"compiler": {
+		"version": "0.6.6+commit.6c089d02"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [],
+		"devdoc": {
+			"methods": {}
+		},
+		"userdoc": {
+			"methods": {}
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"wuhao.github.io/projects/flattened/uniswap-v2-periphery-master/UniswapV2Router02.sol": "SafeMath"
+		},
+		"evmVersion": "istanbul",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"wuhao.github.io/projects/flattened/uniswap-v2-periphery-master/UniswapV2Router02.sol": {
+			"keccak256": "0xd5064935905042aa2691b3bd3835e8dfd9a15cd85cca8187e0f909430dca0d0b",
+			"urls": [
+				"bzz-raw://0a2d14046329b191e259f1cd2e11c7e1e18b3aa5fcbae3c17dabf21c2dc8a318",
+				"dweb:/ipfs/Qmd7NrdPzyKbZ7oc23o7CsyJWjssJbqiVFWTBnpegseMaF"
+			]
+		}
+	},
+	"version": 1
+}

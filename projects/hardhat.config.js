@@ -39,7 +39,7 @@ module.exports = {
       }
     }]
   },
-  defaultNetwork: "dev",
+  defaultNetwork: "ropsten",
   networks : {
     dev: {
       url: "http://127.0.0.1:8545",
@@ -57,8 +57,9 @@ module.exports = {
   },
   paths: {
     // sources: "./contracts/uniswap-v2-core-master/contracts",
-    sources: "./contracts/uniswap-v2-periphery-master/contracts",
+    // sources: "./contracts/uniswap-v2-periphery-master/contracts",
     // sources: "./contracts/UniswapMarket",
+    sources: "./flattened/AirToken",
     tests: "./test",
     cache: "./cache",
     artifacts: "./artifacts"

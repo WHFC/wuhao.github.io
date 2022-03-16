@@ -5,7 +5,7 @@
 // Runtime Environment's members available in the global scope.
 const { ethers } = require("hardhat");
 const { writeAddr } = require('../actions/artifact_log.js');
-const { abi, bytecode } = require('../artifacts/contracts/uniswap-v2-core-master/contracts/UniswapV2Factory.sol/UniswapV2Factory.json');
+const { abi, bytecode } = require('../artifacts/flattened/uniswap-v2-core-master/UniswapV2Factory.sol/UniswapV2Factory.json');
 
 async function main() {
   // Hardhat always runs the compile task when running scripts with its command

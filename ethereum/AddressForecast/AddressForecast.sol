@@ -177,6 +177,13 @@ contract AddressForecast {
         }
         c.callClaim(address(msg.sender));
     }
+    // gas: 1298025 10次
+    function callClaim3(uint256 times) public {
+        for(uint i=0;i<times;++i){
+            new claimer3(address(msg.sender));
+            nonce+=1;
+        }
+    }
 }
 
 contract claimer{
@@ -200,6 +207,17 @@ contract claimer2{
         require(balance > 0,'Oh no');
         airdrop(contra).transfer(receiver, balance);
         selfdestruct(payable(address(msg.sender)));
+    }
+}
+
+contract claimer3{
+    constructor(address receiver){
+        address contra = address(0xd9145CCE52D386f254917e481eB44e9943F39138);
+        airdrop(contra).claim();
+        uint256 balance = airdrop(contra).balanceOf(address(this));
+        require(balance > 0,'Oh no');
+        airdrop(contra).transfer(receiver, balance);   // 1102178 10次
+        selfdestruct(payable(address(msg.sender))); // 1077052 10次
     }
 }
 
