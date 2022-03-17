@@ -8,3 +8,4 @@
 /vite-project/node_modules
 /vite-project/package.json
 /vite-project/package-lock.json
+*artifacts

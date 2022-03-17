@@ -8,11 +8,11 @@ async function main() {
   const UniswapMarket = await ethers.getContractFactory("UniswapMarket");
   const market = await UniswapMarket.attach(depolyedAddr.address);
   console.log("market.address: ", market.address);
-  const token1Address = '0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9';
+  const token1Address = '0x07882Ae1ecB7429a84f1D53048d35c4bB2056877';
   const AirToken = await new ethers.ContractFactory(token1Abi, token1Bytecode, owner);
   const token1 = await AirToken.attach(token1Address);
   console.log("token1.address: ", token1.address);
-  const token2Address = '0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9';
+  const token2Address = '0x22753E4264FDDc6181dc7cce468904A80a363E44';
   const token2 = await AirToken.attach(token2Address);
   console.log("token2.address: ", token2.address);
   console.log("1");
@@ -41,12 +41,17 @@ async function main() {
   tx = await token1.approve(market.address, value);
   console.log("12");
   await tx.wait();
+  tx = await market.depositTokenA(value);
   console.log("13");
-  tx = await market.buyTokenB(value, 0, owner2.address);
-  console.log("14");
   await tx.wait();
+  console.log("14");
+  console.log("market tokenA balance: ", await token1.balanceOf(market.address));
+  tx = await market.buyTokenB(value, 0, owner2.address);
   console.log("15");
-  console.log("owner2 tokenB balance: ", await token2.balanceOf(owner2.address));
+  await tx.wait();
+  console.log("16");
+  let result = await token2.balanceOf(owner2.address);
+  console.log("owner2 tokenB balance: ", result._hex);
 }
 
 main()
