@@ -681,10 +681,10 @@
 	},
 	"sources": {
 		"wuhao.github.io/projects/flattened/uniswap-v2-periphery-master/UniswapV2Router02.sol": {
-			"keccak256": "0x39e3220c71001b0630ca30a938f240acb45d20d7ba7e88ece80c67dd3ee14651",
+			"keccak256": "0xbed8c68d60b9d5f2b26a0280a0aeaa3a33b9bea0c6f21a1b5192e5cf810adef3",
 			"urls": [
-				"bzz-raw://a55c416aa58c213b6f27989dccd83cb5e47b317b8eada09efd82e2120aabca31",
-				"dweb:/ipfs/QmUBL8VxnPQhJyvP9NuAY3gLnmmpb83WW3BuvPkHg2hkmw"
+				"bzz-raw://c6a6cef5c6d3ef12987b40be80b4780c8f6f6c22e543780fa5fe2f75cfc593a1",
+				"dweb:/ipfs/QmZTgpfQyc6qoww8Bpc6GyhLbMLvupdoyUAPPpf9JfyjCM"
 			]
 		}
 	},
