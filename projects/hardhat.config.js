@@ -38,6 +38,14 @@ module.exports = {
         }
       }
     },{
+      version: "0.6.12",
+      settings: {
+        optimizer: {
+          enabled: true,
+          runs: 200
+        }
+      }
+    },{
       version: "0.8.0",
       settings: {
         optimizer: {
@@ -70,7 +78,8 @@ module.exports = {
     // sources: "./flattened/uniswap-v2-core-master",
     // sources: "./flattened/uniswap-v2-periphery-master",
     // sources: "./flattened/AirToken",
-    sources: "./contracts/UniswapMarket",
+    // sources: "./contracts/UniswapMarket",
+    sources: "./contracts/sushiswap/contracts",
     tests: "./test",
     cache: "./cache",
     artifacts: "./artifacts"
