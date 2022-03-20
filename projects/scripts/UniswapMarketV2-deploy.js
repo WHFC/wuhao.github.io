@@ -6,6 +6,12 @@
 const { ethers } = require("hardhat");
 const { writeAddr } = require('../actions/artifact_log.js');
 const { abi, bytecode } = require('../artifacts/contracts/UniswapMarket/UniswapMarketV2.sol/UniswapMarketV2.json');
+const depolyedRouterAddr = require(`../deployments/${network.name}/UniswapV2Router02.json`)
+const depolyedWETHAddr = require(`../deployments/${network.name}/WETH9.json`)
+const depolyedTokenAddr = require(`../deployments/${network.name}/AirToken.json`)
+const depolyedSushiAddr = require(`../deployments/${network.name}/SushiToken.json`)
+const depolyedMaterChefAddr = require(`../deployments/${network.name}/MasterChef.json`)
+const { abi:masterchefAbi, bytecode:smasterchefBytecode } = require('../artifacts/contracts/sushiswap/contracts/MasterChef.sol/MasterChef.json');
 
 async function main() {
   // Hardhat always runs the compile task when running scripts with its command
@@ -17,8 +23,19 @@ async function main() {
 
   // We get the contract to deploy
   let [owner]  = await ethers.getSigners();
+  const MasterChef = await new ethers.ContractFactory(masterchefAbi, smasterchefBytecode, owner);
+  const masterchef = await MasterChef.attach(depolyedMaterChefAddr.address);
+  let pid = await masterchef.poolLength();
+  console.log("get pool length, pid: ", pid.toNumber() - 1); 
+
   const UniswapMarket = await new ethers.ContractFactory(abi, bytecode, owner);
-  const market = await UniswapMarket.deploy();
+  const market = await UniswapMarket.deploy(
+    depolyedRouterAddr.address,
+    depolyedWETHAddr.address,
+    depolyedTokenAddr.address,
+    depolyedMaterChefAddr.address,
+    depolyedSushiAddr.address,
+    pid.toNumber() - 1);
   await market.deployed();
   console.log("UniswapMarketV2 deployed to:", market.address);
   await writeAddr(market.address, "UniswapMarketV2", network.name);

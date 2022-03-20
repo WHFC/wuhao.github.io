@@ -30,8 +30,6 @@ abstract contract Context {
 
 // File contracts/AirToken/IERC20.sol
 
-// SPDX-License-Identifier: MIT
-
 pragma solidity >=0.6.0 <0.8.0;
 
 /**
@@ -110,8 +108,6 @@ interface IERC20 {
 
 
 // File contracts/AirToken/math/SafeMath.sol
-
-// SPDX-License-Identifier: MIT
 
 pragma solidity >=0.6.0 <0.8.0;
 
@@ -328,8 +324,6 @@ library SafeMath {
 
 
 // File contracts/AirToken/AirToken.sol
-
-// SPDX-License-Identifier: MIT
 
 pragma solidity >=0.6.0 < 0.8.0;
 /**

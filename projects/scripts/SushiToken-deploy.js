@@ -20,8 +20,8 @@ async function main() {
   const SushiToken = await new ethers.ContractFactory(abi, bytecode, owner);
   const sushi = await SushiToken.deploy();
   await sushi.deployed();
-  console.log("UniswapMarketV2 deployed to:", sushi.address);
-  await writeAddr(sushi.address, "UniswapMarketV2", network.name);
+  console.log("SushiToken deployed to:", sushi.address);
+  await writeAddr(sushi.address, "SushiToken", network.name);
 }
 
 // We recommend this pattern to be able to use async/await everywhere
