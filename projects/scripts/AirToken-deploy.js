@@ -25,17 +25,18 @@ async function main() {
   console.log("AirToken deployed to:", token.address);
   await writeAddr(token.address, "AirToken", network.name);
 
-  const MasterChef = await new ethers.ContractFactory(masterchefAbi, smasterchefBytecode, owner);
-  const masterchef = await MasterChef.attach(depolyedMaterChefAddr.address);
-  let pid = await masterchef.poolLength();
-  console.log("get pool length, pid: ", pid.toNumber());  
+  // const MasterChef = await new ethers.ContractFactory(masterchefAbi, smasterchefBytecode, owner);
+  // const masterchef = await MasterChef.attach(depolyedMaterChefAddr.address);
+  // let pid = await masterchef.poolLength();
+  // console.log("get pool length, pid: ", pid.toNumber());  
 
-  let tx = await masterchef.add(100, token.address, false);
-  await tx.wait();
-  console.log("add lp token");  
-  // const token2 = await AirToken.deploy("WHToken", "WHT");
-  // await token2.deployed();
-  // console.log("token2 deployed to:", token2.address);
+  // let tx = await masterchef.add(100, token.address, false);
+  // await tx.wait();
+  // console.log("add lp token");  
+  const token2 = await AirToken.deploy("WHToken", "WHT");
+  await token2.deployed();
+  console.log("WHToken deployed to:", token2.address);
+  await writeAddr(token2.address, "WHToken", network.name);
 }
 
 // We recommend this pattern to be able to use async/await everywhere

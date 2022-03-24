@@ -84,8 +84,9 @@ module.exports = {
     // sources: "./flattened/uniswap-v2-core-master",
     // sources: "./flattened/uniswap-v2-periphery-master",
     // sources: "./flattened/AirToken",
-    sources: "./contracts/sushiswap/contracts",
+    // sources: "./contracts/sushiswap/contracts",
     // sources: "./contracts/UniswapMarket",
+    sources: "./contracts/FlashSwap",
     tests: "./test",
     cache: "./cache",
     artifacts: "./artifacts"
