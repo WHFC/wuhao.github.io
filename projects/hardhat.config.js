@@ -21,19 +21,14 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
  */
 module.exports = {
   solidity: {
-    settings: {
-      optimizer: {
-        enabled: true,
-        runs: 200
-      }
-    },
     compilers : [{
       version: "0.5.16",
       settings: {
         optimizer: {
           enabled: true,
           runs: 200
-        }
+        },
+        evmVersion: "istanbul"
       }
     },{
       version: "0.6.6",
@@ -41,7 +36,8 @@ module.exports = {
         optimizer: {
           enabled: true,
           runs: 200
-        }
+        },
+        evmVersion: "istanbul"
       }
     },{
       version: "0.6.12",
@@ -49,19 +45,33 @@ module.exports = {
         optimizer: {
           enabled: true,
           runs: 200
-        }
+        },
+        evmVersion: "istanbul"
       }
-    },{
+    }
+    // ,{
+    //   version: "0.7.6",
+    //   settings: {
+    //     optimizer: {
+    //       enabled: true,
+    //       runs: 200
+    //     },
+    //     evmVersion: "istanbul"
+    //   }
+    // }
+    ,{
       version: "0.8.0",
       settings: {
         optimizer: {
           enabled: true,
           runs: 200
-        }
+        },
+        evmVersion: "istanbul"
       }
-    }]
+    }
+  ]
   },
-  defaultNetwork: "dev",
+  defaultNetwork: "ropsten",
   networks : {
     dev: {
       url: "http://127.0.0.1:8545",
@@ -87,6 +97,7 @@ module.exports = {
     // sources: "./contracts/sushiswap/contracts",
     // sources: "./contracts/UniswapMarket",
     sources: "./contracts/FlashSwap",
+    // sources: "./contracts/v3-core",
     tests: "./test",
     cache: "./cache",
     artifacts: "./artifacts"
