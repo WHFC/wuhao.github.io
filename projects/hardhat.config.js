@@ -59,8 +59,18 @@ module.exports = {
     //     evmVersion: "istanbul"
     //   }
     // }
+    // ,{
+    //   version: "0.8.0",
+    //   settings: {
+    //     optimizer: {
+    //       enabled: true,
+    //       runs: 200
+    //     },
+    //     evmVersion: "istanbul"
+    //   }
+    // }
     ,{
-      version: "0.8.0",
+      version: "0.8.10",
       settings: {
         optimizer: {
           enabled: true,
@@ -71,7 +81,7 @@ module.exports = {
     }
   ]
   },
-  defaultNetwork: "ropsten",
+  defaultNetwork: "rinkeby",
   networks : {
     dev: {
       url: "http://127.0.0.1:8545",
@@ -81,8 +91,17 @@ module.exports = {
       url: networkJson.goerliUrl,
       accounts: nnemonic,
     },
+    kovan: {
+      url: networkJson.kovanUrl,
+      accounts: nnemonic,
+    },
     ropsten: {
       url: networkJson.ropstenUrl,
+      accounts: nnemonic,
+      timeout: 999999,
+    },
+    rinkeby: {
+      url: networkJson.rinkebyUrl,
       accounts: nnemonic,
       timeout: 999999,
     }
@@ -96,8 +115,10 @@ module.exports = {
     // sources: "./flattened/AirToken",
     // sources: "./contracts/sushiswap/contracts",
     // sources: "./contracts/UniswapMarket",
-    sources: "./contracts/FlashSwap",
+    // sources: "./contracts/FlashSwap",
     // sources: "./contracts/v3-core",
+    // sources: "./contracts/AAVESwap",
+    sources: "./flattened/AAVESwap",
     tests: "./test",
     cache: "./cache",
     artifacts: "./artifacts"

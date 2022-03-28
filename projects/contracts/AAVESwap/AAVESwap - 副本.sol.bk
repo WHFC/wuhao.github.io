@@ -1,0 +1,148 @@
+pragma solidity 0.8.10;
+import '../aave-v3-core/contracts/flashloan/base/FlashLoanSimpleReceiverBase.sol';
+import '../uniswap-v2-core-master/contracts/interfaces/IUniswapV2Callee.sol';
+import '../uniswap-v2-core-master/contracts/interfaces/IUniswapV2Pair.sol';
+import '../uniswap-v2-periphery-master/contracts/interfaces/IUniswapV2Router01.sol';
+import '../uniswap-v2-periphery-master/contracts/libraries/UniswapV2Library.sol';
+import '../v3-periphery/contracts/interfaces/ISwapRouter.sol';
+import '../uniswap-v2-core-master/contracts/interfaces/IERC20.sol';
+import '../v3-periphery/contracts/libraries/TransferHelper.sol';
+
+contract AAVESwap is FlashLoanSimpleReceiverBase, IUniswapV2Callee {
+    IUniswapV2Router01 public constant v2router = IUniswapV2Router01(0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D);   // v2router on rinkeby
+    ISwapRouter public constant v3router = ISwapRouter(0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45);          // v3router on rinkeby
+    address public constant DAI = 0xd0A1E359811322d97991E03f863a0C30C2cF029C;                  // WETH on rinkeby
+    address public constant tokenB = 0x322ACc3d2a82c1D44e30263DD31A3A5A60F1D327;                 // AT on rinkeby
+    address public immutable v2factory;
+    IUniswapV2Pair public immutable v2pair;
+
+    constructor(IPoolAddressesProvider provider) FlashLoanSimpleReceiverBase(provider) {
+        address _factory = v2router.factory();
+        v2factory = _factory;
+        v2pair = IUniswapV2Pair(UniswapV2Library.pairFor(_factory, tokenA, tokenB));
+    }
+
+    function executeOperation(
+    address asset,
+    uint256 amount,
+    uint256 premium,
+    address initiator,
+    bytes calldata params
+  ) external returns (bool) {
+        address token0 = asset;
+        address token1 = asset == tokenA ? tokenB : tokenA;
+        (uint minTokens) = abi.decode(params, (uint256));
+        uint256 amountOut1;
+        if (amount) {   // 从AAVE借出了token0
+            amountOut1 = swapFromV2Router(amount);
+        }
+        else if (minTokens > 0 && params.length() > 0) { // 从AAVE借了0个token0，使用UniswapV2的闪电贷借出token1
+            amountOut1 = swapFromV2Pair(minTokens, params);
+        }
+        else {
+            revert("invalid executable params");
+        }
+        // 将对话的otken0授权给uniswap v3 router
+        TransferHelper.safeApprove(token1, address(v3router), amountOut1);
+        // 在v3router中兑换token0
+        uint256 amountOut2 = v3router.exactInputSingle(ISwapRouter.ExactInputSingleParams({
+            tokenIn:token1,
+            tokenOut:token0,
+            fee:3000,
+            recipient:address(this),
+            deadline:block.number,
+            amountIn:amountOut1,
+            amountOutMinimum:0,
+            sqrtPriceLimitX96:0
+        }));
+        // 需要偿还的总额为借出的amount + 手续费premium
+        uint256 debt = amount + premium;
+        require(amountOut2 >= debt, "amount lower than debt");
+        require(minTokens >= amountOut2 - debt, "not enough rewards");
+        // 将多余的token0转给交易发起人
+        TransferHelper.safeTransfer(token0, initiator, amountOut2 - debt);
+        // 将需要偿还债务的token0授权给POOL
+        TransferHelper.safeApprove(token0, msg.sender, debt);
+        return true;
+  }
+  
+    // gets tokens/WETH via a V2 flash swap, swaps for the TokenA/TokenB on V1, repays V2, and keeps the rest!
+    function uniswapV2Call(address sender, uint amount0, uint amount1, bytes calldata data) external override {
+        lastSwapAmountA = 0;
+        lastPayBackAmoutA = 0;
+        lastSwapAmountB = 0;
+        lastPayBackAmoutB = 0;
+        address[] memory path = new address[](2);
+        address token0 = IUniswapV2Pair(msg.sender).token0();
+        address token1 = IUniswapV2Pair(msg.sender).token1();
+        assert(msg.sender == UniswapV2Library.pairFor(factory, token0, token1)); // ensure that msg.sender is actually a V2 pair
+        assert(amount0 == 0 || amount1 == 0); // this strategy is unidirectional
+        path[0] = amount0 == 0 ? token0 : token1;
+        path[1] = amount0 == 0 ? token1 : token0;
+
+        if (amount0 > 0) {
+            lastSwapAmountA = amount0;
+            // (uint minTokens) = abi.decode(data, (uint256));
+            TransferHelper.safeApprove(token0, address(v3router), amount0);
+            uint256 amountOutB =
+                v3router.exactInputSingle(
+                    IV3SwapRouter.ExactInputSingleParams({
+                        tokenIn: token0,
+                        tokenOut: token1,
+                        fee: 3000,
+                        recipient: address(this),
+                        amountIn: amount0,
+                        amountOutMinimum: 0,
+                        sqrtPriceLimitX96: 0
+                    })
+                );
+            uint amountRequired = UniswapV2Library.getAmountsIn(factory, amount0, path)[0];
+            lastPayBackAmoutA = amountRequired;
+            assert(amountOutB > amountRequired); // fail if we didn't get enough tokens back to repay our flash loan
+            assert(IERC20(token1).transfer(msg.sender, amountRequired)); // return tokens to V2 pair
+            assert(IERC20(token1).transfer(sender, amountOutB - amountRequired)); // keep the rest! (tokens)
+        } else {
+            lastSwapAmountB = amount1;
+            // (uint minTokens) = abi.decode(data, (uint256));
+            TransferHelper.safeApprove(token1, address(v3router), amount1);
+            uint256 amountOutA =
+                v3router.exactInputSingle(
+                    IV3SwapRouter.ExactInputSingleParams({
+                        tokenIn: token1,
+                        tokenOut: token0,
+                        fee: 3000,
+                        recipient: address(this),
+                        amountIn: amount1,
+                        amountOutMinimum: 0,
+                        sqrtPriceLimitX96: 0
+                    })
+                );
+            uint amountRequired = UniswapV2Library.getAmountsIn(factory, amount1, path)[0];
+            lastPayBackAmoutB = amountRequired;
+            assert(amountOutA > amountRequired); // fail if we didn't get enough tokens back to repay our flash loan
+            assert(IERC20(token0).transfer(msg.sender, amountRequired)); // return tokens to V2 pair
+            assert(IERC20(token0).transfer(sender, amountOutA - amountRequired)); // keep the rest! (tokens)
+        }
+    }
+
+  function swapFromV2Pair(address tokenIn, uint256 amount, bytes calldata params) internal returns (uint256) {
+      address token0 = v2pair.token0();
+      uint256 amount0Out = token0 == tokenIn ? amount : 0;
+      uint256 amount1Out = token0 == tokenIn ? 0 : amount;
+      v2pair.swap(amount0Out, amount1Out, address(this), data);
+      address tokenOut = tokenIn == tokenA ? tokenB : tokenA;
+      return IERC20(tokenOut).balanceOf(address(this));
+  }
+
+  function swapFromV2Router(address token0, address token1, uint256 amount) internal returns (uint256) {
+        // 将收到的token0授权给uniswap v2 router
+        TransferHelper.safeApprove(token0, address(v2router), amount);
+        address[] memory path = new address[](2);
+        path[0] = token0;
+        path[1] = token1;
+        // 在v2router中，使用token0兑换token0
+        return v2router.swapExactTokensForTokens(amount, 0, path, address(this), block.number)[1];
+  }
+
+  
+}
