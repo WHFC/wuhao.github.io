@@ -170,8 +170,6 @@ library UniswapV2Library {
 
 // File contracts/uniswap-v2-periphery-master/contracts/libraries/TransferHelper.sol
 
-// SPDX-License-Identifier: GPL-3.0-or-later
-
 pragma solidity >=0.6.0;
 
 // helper methods for interacting with ERC20 tokens and sending ETH that do not consistently return true/false
@@ -232,9 +230,8 @@ library TransferHelper {
 }
 
 
-// File contracts/v3-periphery/contracts/libraries/PoolAddress.sol
+// File contracts/v3-periphery/contracts/libraries/PoolAddre
 
-// SPDX-License-Identifier: GPL-2.0-or-later
 pragma solidity >=0.5.0;
 
 /// @title Provides functions for deriving a pool address from the factory, tokens, and the fee
@@ -286,7 +283,6 @@ library PoolAddress {
 
 // File contracts/v3-core/contracts/interfaces/IUniswapV3Factory.sol
 
-// SPDX-License-Identifier: GPL-2.0-or-later
 pragma solidity >=0.5.0;
 
 /// @title The interface for the Uniswap V3 Factory
@@ -366,9 +362,8 @@ interface IUniswapV3Factory {
 }
 
 
-// File contracts/v3-core/contracts/interfaces/callback/IUniswapV3SwapCallback.sol
+// File contracts/FlashSwap/UniswapV3FromKovan/IUniswapV3SwapCallback.sol
 
-// SPDX-License-Identifier: GPL-2.0-or-later
 pragma solidity >=0.5.0;
 
 /// @title Callback for IUniswapV3PoolActions#swap
@@ -391,26 +386,26 @@ interface IUniswapV3SwapCallback {
 }
 
 
-// File contracts/v3-periphery/contracts/interfaces/ISwapRouter.sol
+// File contracts/FlashSwap/UniswapV3FromKovan/IV3SwapRouter.sol
 
-// SPDX-License-Identifier: GPL-2.0-or-later
 pragma solidity >=0.7.5;
 pragma abicoder v2;
 /// @title Router token swapping functionality
 /// @notice Functions for swapping tokens via Uniswap V3
-interface ISwapRouter is IUniswapV3SwapCallback {
+interface IV3SwapRouter is IUniswapV3SwapCallback {
     struct ExactInputSingleParams {
         address tokenIn;
         address tokenOut;
         uint24 fee;
         address recipient;
-        uint256 deadline;
         uint256 amountIn;
         uint256 amountOutMinimum;
         uint160 sqrtPriceLimitX96;
     }
 
     /// @notice Swaps `amountIn` of one token for as much as possible of another token
+    /// @dev Setting `amountIn` to 0 will cause the contract to look up its own balance,
+    /// and swap the entire amount, enabling contracts to send tokens before calling this function.
     /// @param params The parameters necessary for the swap, encoded as `ExactInputSingleParams` in calldata
     /// @return amountOut The amount of the received token
     function exactInputSingle(ExactInputSingleParams calldata params) external payable returns (uint256 amountOut);
@@ -418,12 +413,13 @@ interface ISwapRouter is IUniswapV3SwapCallback {
     struct ExactInputParams {
         bytes path;
         address recipient;
-        uint256 deadline;
         uint256 amountIn;
         uint256 amountOutMinimum;
     }
 
     /// @notice Swaps `amountIn` of one token for as much as possible of another along the specified path
+    /// @dev Setting `amountIn` to 0 will cause the contract to look up its own balance,
+    /// and swap the entire amount, enabling contracts to send tokens before calling this function.
     /// @param params The parameters necessary for the multi-hop swap, encoded as `ExactInputParams` in calldata
     /// @return amountOut The amount of the received token
     function exactInput(ExactInputParams calldata params) external payable returns (uint256 amountOut);
@@ -433,13 +429,13 @@ interface ISwapRouter is IUniswapV3SwapCallback {
         address tokenOut;
         uint24 fee;
         address recipient;
-        uint256 deadline;
         uint256 amountOut;
         uint256 amountInMaximum;
         uint160 sqrtPriceLimitX96;
     }
 
     /// @notice Swaps as little as possible of one token for `amountOut` of another token
+    /// that may remain in the router after the swap.
     /// @param params The parameters necessary for the swap, encoded as `ExactOutputSingleParams` in calldata
     /// @return amountIn The amount of the input token
     function exactOutputSingle(ExactOutputSingleParams calldata params) external payable returns (uint256 amountIn);
@@ -447,12 +443,12 @@ interface ISwapRouter is IUniswapV3SwapCallback {
     struct ExactOutputParams {
         bytes path;
         address recipient;
-        uint256 deadline;
         uint256 amountOut;
         uint256 amountInMaximum;
     }
 
     /// @notice Swaps as little as possible of one token for `amountOut` of another along the specified path (reversed)
+    /// that may remain in the router after the swap.
     /// @param params The parameters necessary for the multi-hop swap, encoded as `ExactOutputParams` in calldata
     /// @return amountIn The amount of the input token
     function exactOutput(ExactOutputParams calldata params) external payable returns (uint256 amountIn);
@@ -487,7 +483,7 @@ contract FlashSwap is IUniswapV2Callee {
     address immutable factory;
     address immutable tokenA;
     address immutable tokenB;
-    ISwapRouter immutable public v3router;
+    IV3SwapRouter immutable public v3router;
     address immutable public v2pair;
     uint256 public lastSwapAmountA;
     uint256 public lastPayBackAmoutA;
@@ -499,7 +495,7 @@ contract FlashSwap is IUniswapV2Callee {
         tokenA = _token0;
         tokenB = _token1;
         PoolAddress.PoolKey memory poolKey = PoolAddress.getPoolKey(_token0, _token1, 3000);
-        v3router = ISwapRouter(_v3router);
+        v3router = IV3SwapRouter(_v3router);
         v2pair = UniswapV2Library.pairFor(_factory, _token0, _token1);
     }
 
@@ -514,65 +510,55 @@ contract FlashSwap is IUniswapV2Callee {
         lastSwapAmountB = 0;
         lastPayBackAmoutB = 0;
         address[] memory path = new address[](2);
-        uint amountTokenA;
-        uint amountTokenB;
-        { // scope for token{0,1}, avoids stack too deep errors
         address token0 = IUniswapV2Pair(msg.sender).token0();
         address token1 = IUniswapV2Pair(msg.sender).token1();
         assert(msg.sender == UniswapV2Library.pairFor(factory, token0, token1)); // ensure that msg.sender is actually a V2 pair
         assert(amount0 == 0 || amount1 == 0); // this strategy is unidirectional
         path[0] = amount0 == 0 ? token0 : token1;
         path[1] = amount0 == 0 ? token1 : token0;
-        amountTokenA = token0 == address(tokenA) ? amount0 : amount1;
-        amountTokenB = token0 == address(tokenA) ? amount1 : amount0;
-        }
 
-        assert(path[0] == address(tokenA) || path[1] == address(tokenA));
-
-        if (amountTokenA > 0) {
-            lastSwapAmountA = amountTokenA;
-            (uint minTokens) = abi.decode(data, (uint256));
-            TransferHelper.safeApprove(tokenA, address(v3router), minTokens);
+        if (amount0 > 0) {
+            lastSwapAmountA = amount0;
+            // (uint minTokens) = abi.decode(data, (uint256));
+            TransferHelper.safeApprove(token0, address(v3router), amount0);
             uint256 amountOutB =
                 v3router.exactInputSingle(
-                    ISwapRouter.ExactInputSingleParams({
-                        tokenIn: tokenA,
-                        tokenOut: tokenB,
+                    IV3SwapRouter.ExactInputSingleParams({
+                        tokenIn: token0,
+                        tokenOut: token1,
                         fee: 3000,
                         recipient: address(this),
-                        deadline: block.timestamp,
-                        amountIn: minTokens,
+                        amountIn: amount0,
                         amountOutMinimum: 0,
                         sqrtPriceLimitX96: 0
                     })
                 );
-            uint amountRequired = UniswapV2Library.getAmountsIn(factory, amountTokenA, path)[0];
+            uint amountRequired = UniswapV2Library.getAmountsIn(factory, amount0, path)[0];
             lastPayBackAmoutA = amountRequired;
             assert(amountOutB > amountRequired); // fail if we didn't get enough tokens back to repay our flash loan
-            assert(IERC20(tokenA).transfer(msg.sender, amountRequired)); // return tokens to V2 pair
-            assert(IERC20(tokenB).transfer(sender, amountOutB - amountRequired)); // keep the rest! (tokens)
+            assert(IERC20(token1).transfer(msg.sender, amountRequired)); // return tokens to V2 pair
+            assert(IERC20(token1).transfer(sender, amountOutB - amountRequired)); // keep the rest! (tokens)
         } else {
-            lastSwapAmountB = amountTokenB;
-            (uint minTokens) = abi.decode(data, (uint256));
-            TransferHelper.safeApprove(tokenB, address(v3router), minTokens);
+            lastSwapAmountB = amount1;
+            // (uint minTokens) = abi.decode(data, (uint256));
+            TransferHelper.safeApprove(token1, address(v3router), amount1);
             uint256 amountOutA =
                 v3router.exactInputSingle(
-                    ISwapRouter.ExactInputSingleParams({
-                        tokenIn: tokenB,
-                        tokenOut: tokenA,
+                    IV3SwapRouter.ExactInputSingleParams({
+                        tokenIn: token1,
+                        tokenOut: token0,
                         fee: 3000,
                         recipient: address(this),
-                        deadline: block.timestamp,
-                        amountIn: minTokens,
+                        amountIn: amount1,
                         amountOutMinimum: 0,
                         sqrtPriceLimitX96: 0
                     })
                 );
-            uint amountRequired = UniswapV2Library.getAmountsIn(factory, amountTokenB, path)[0];
+            uint amountRequired = UniswapV2Library.getAmountsIn(factory, amount1, path)[0];
             lastPayBackAmoutB = amountRequired;
             assert(amountOutA > amountRequired); // fail if we didn't get enough tokens back to repay our flash loan
-            assert(IERC20(tokenB).transfer(msg.sender, amountRequired)); // return tokens to V2 pair
-            assert(IERC20(tokenA).transfer(sender, amountOutA - amountRequired)); // keep the rest! (tokens)
+            assert(IERC20(token0).transfer(msg.sender, amountRequired)); // return tokens to V2 pair
+            assert(IERC20(token0).transfer(sender, amountOutA - amountRequired)); // keep the rest! (tokens)
         }
     }
 }

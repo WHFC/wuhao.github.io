@@ -59,8 +59,18 @@ module.exports = {
     //     evmVersion: "istanbul"
     //   }
     // }
+    // ,{
+    //   version: "0.8.0",
+    //   settings: {
+    //     optimizer: {
+    //       enabled: true,
+    //       runs: 200
+    //     },
+    //     evmVersion: "istanbul"
+    //   }
+    // }
     ,{
-      version: "0.8.0",
+      version: "0.8.10",
       settings: {
         optimizer: {
           enabled: true,
@@ -79,6 +89,10 @@ module.exports = {
     },
     goerli: {
       url: networkJson.goerliUrl,
+      accounts: nnemonic,
+    },
+    kovan: {
+      url: networkJson.kovanUrl,
       accounts: nnemonic,
     },
     ropsten: {
@@ -102,6 +116,8 @@ module.exports = {
     // sources: "./contracts/UniswapMarket",
     // sources: "./contracts/FlashSwap",
     // sources: "./contracts/v3-core",
+    // sources: "./contracts/AAVESwap",
+    sources: "./flattened/AAVESwap",
     tests: "./test",
     cache: "./cache",
     artifacts: "./artifacts"

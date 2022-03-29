@@ -14,8 +14,14 @@ const { abi:v2routerAbi, bytecode:v2routerByteCode } = require('../artifacts/fla
 
 async function main() {
   let [owner]  = await ethers.getSigners();
-  const AT = "0xeA80ED9Bb4Cf9fc377E4346FB8588f6b5D8f3A98";
-  const WHT = "0x3a81278B6C87869624ff0A1b435f59A8A4cFB713";
+  // ropsten
+  // const AT = "0xeA80ED9Bb4Cf9fc377E4346FB8588f6b5D8f3A98";
+  // const WHT = "0x3a81278B6C87869624ff0A1b435f59A8A4cFB713";
+  // const v3router = "0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45";
+  // const v2router = "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D";
+  // kovan
+  const AT = "0x322ACc3d2a82c1D44e30263DD31A3A5A60F1D327";
+  const WHT = "0x1D52c819E28E9C7BD1B5fa28DCFDcb48082268D4";
   const v3router = "0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45";
   const v2router = "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D";
 

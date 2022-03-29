@@ -16,6 +16,9 @@ const overrides = {
 }
 
 async function main() {
+  // let balance = ethers.utils.parseUnits("1", 18);
+  // console.log(ethers.utils.defaultAbiCoder.encode(['uint256'], [balance]));
+  // return;
   let [owner, owner2]  = await ethers.getSigners();
   const AirToken = await new ethers.ContractFactory(abi, bytecode, owner);
   // const AT = await AirToken.attach(depolyedAitTokenAddr.address);
