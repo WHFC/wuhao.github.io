@@ -6,6 +6,12 @@ const writeFile = util.promisify(fs.writeFile);
 
 
 async function writeAddr(addr, name, network){
+  const deploymentPath = path.resolve(__dirname, `../deployments`);
+  if (!fs.existsSync(deploymentPath))
+    fs.mkdirSync(deploymentPath, {recursive:true});
+  const deploymentNetworkPath = path.resolve(__dirname, `../deployments/${network}`);
+  if (!fs.existsSync(deploymentNetworkPath))
+    fs.mkdirSync(deploymentNetworkPath, {recursive:true});
   const deployments = {};
   deployments["address"] = addr;
   deployments["contractName"] = name;

@@ -71,7 +71,7 @@ module.exports = {
     }
   ]
   },
-  defaultNetwork: "ropsten",
+  defaultNetwork: "dev",
   networks : {
     dev: {
       url: "http://127.0.0.1:8545",
@@ -85,6 +85,10 @@ module.exports = {
       url: networkJson.ropstenUrl,
       accounts: nnemonic,
       timeout: 999999,
+    },
+    rinkeby: {
+      url: networkJson.rinkebyUrl,
+      accounts: nnemonic,
     }
   },
   paths: {
@@ -93,10 +97,10 @@ module.exports = {
     // sources: "./contracts/UniswapMarket",
     // sources: "./flattened/uniswap-v2-core-master",
     // sources: "./flattened/uniswap-v2-periphery-master",
-    // sources: "./flattened/AirToken",
+    sources: "./flattened/AirToken",
     // sources: "./contracts/sushiswap/contracts",
     // sources: "./contracts/UniswapMarket",
-    sources: "./contracts/FlashSwap",
+    // sources: "./contracts/FlashSwap",
     // sources: "./contracts/v3-core",
     tests: "./test",
     cache: "./cache",

@@ -1,5 +1,6 @@
 {
     "goerliUrl" : "https://goerli.infura.io/v3/9aaab622e3b34c749c31ea4bac7855a7",
     "ropstenUrl" : "https://ropsten.infura.io/v3/9aaab622e3b34c749c31ea4bac7855a7",
+    "rinkebyUrl" : "https://rinkeby.infura.io/v3/9aaab622e3b34c749c31ea4bac7855a7",
     "scankey" : "WPE1V4551HVZ66NW314PP8Q8WX4UW7WSRP"
 }

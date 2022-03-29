@@ -6,8 +6,8 @@
 const { ethers } = require("hardhat");
 const { writeAddr } = require('../actions/artifact_log.js');
 const { abi, bytecode } = require('../artifacts/flattened/AirToken/AirToken.sol/AirToken.json');
-const depolyedMaterChefAddr = require(`../deployments/${network.name}/MasterChef.json`)
-const { abi:masterchefAbi, bytecode:smasterchefBytecode } = require('../artifacts/contracts/sushiswap/contracts/MasterChef.sol/MasterChef.json');
+// const depolyedMaterChefAddr = require(`../deployments/${network.name}/MasterChef.json`)
+// const { abi:masterchefAbi, bytecode:smasterchefBytecode } = require('../artifacts/contracts/sushiswap/contracts/MasterChef.sol/MasterChef.json');
 
 async function main() {
   // Hardhat always runs the compile task when running scripts with its command
