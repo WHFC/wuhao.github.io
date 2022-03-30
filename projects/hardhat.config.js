@@ -111,7 +111,7 @@ module.exports = {
     // sources: "./contracts/UniswapMarket",
     // sources: "./flattened/uniswap-v2-core-master",
     // sources: "./flattened/uniswap-v2-periphery-master",
-    sources: "./flattened/AirToken",
+    // sources: "./flattened/AirToken",
     // sources: "./contracts/sushiswap/contracts",
     // sources: "./contracts/UniswapMarket",
     // sources: "./contracts/FlashSwap",
