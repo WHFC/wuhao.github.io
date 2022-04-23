@@ -18,7 +18,7 @@ async function main() {
   // await hre.run('compile');
 
   // We get the contract to deploy
-  let [owner]  = await ethers.getSigners();
+  let [,,owner]  = await ethers.getSigners();
   const AirToken = await new ethers.ContractFactory(abi, bytecode, owner);
   const token = await AirToken.deploy("AirToken", "AT");
   await token.deployed();
@@ -33,10 +33,10 @@ async function main() {
   // let tx = await masterchef.add(100, token.address, false);
   // await tx.wait();
   // console.log("add lp token");  
-  const token2 = await AirToken.deploy("WHToken", "WHT");
-  await token2.deployed();
-  console.log("WHToken deployed to:", token2.address);
-  await writeAddr(token2.address, "WHToken", network.name);
+  // const token2 = await AirToken.deploy("WHToken", "WHT");
+  // await token2.deployed();
+  // console.log("WHToken deployed to:", token2.address);
+  // await writeAddr(token2.address, "WHToken", network.name);
 }
 
 // We recommend this pattern to be able to use async/await everywhere

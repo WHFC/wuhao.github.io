@@ -28,3 +28,11 @@ cs251.stanford.edu
 https://github.com/lbc-team/Pioneer
 scaffold-eth(一套脚手架框架)
 https://github.com/scaffold-eth/scaffold-eth.git
+多签钱包
+https://solidity-by-example.org/app/multi-sig-wallet/
+curve解析
+https://www.dappchaser.com/an-introduction-to-stablecoin-swaps-from-balancer-to-curve/
+以太坊维基
+https://eth.wiki/
+深入了解以太坊虚拟机第3部分——动态数据类型的表示方法（如何计算插槽地址）
+https://lilymoana.github.io/evm_part3.html

@@ -30,7 +30,8 @@ module.exports = {
         },
         evmVersion: "istanbul"
       }
-    },{
+    }
+    ,{
       version: "0.6.6",
       settings: {
         optimizer: {
@@ -39,7 +40,8 @@ module.exports = {
         },
         evmVersion: "istanbul"
       }
-    },{
+    }
+    ,{
       version: "0.6.12",
       settings: {
         optimizer: {
@@ -59,18 +61,8 @@ module.exports = {
     //     evmVersion: "istanbul"
     //   }
     // }
-    // ,{
-    //   version: "0.8.0",
-    //   settings: {
-    //     optimizer: {
-    //       enabled: true,
-    //       runs: 200
-    //     },
-    //     evmVersion: "istanbul"
-    //   }
-    // }
     ,{
-      version: "0.8.10",
+      version: "0.8.0",
       settings: {
         optimizer: {
           enabled: true,
@@ -79,6 +71,16 @@ module.exports = {
         evmVersion: "istanbul"
       }
     }
+    // ,{
+    //   version: "0.8.10",
+    //   settings: {
+    //     optimizer: {
+    //       enabled: true,
+    //       runs: 200
+    //     },
+    //     evmVersion: "istanbul"
+    //   }
+    // }
   ]
   },
   defaultNetwork: "dev",
@@ -117,7 +119,15 @@ module.exports = {
     // sources: "./contracts/FlashSwap",
     // sources: "./contracts/v3-core",
     // sources: "./contracts/AAVESwap",
-    sources: "./flattened/AAVESwap",
+    // sources: "./flattened/AAVESwap",
+    // sources: "./contracts/LongOption",
+    // sources: "./flattened/LongOption",
+    // sources: "./contracts/ERC20WithGov",
+    // sources: "./contracts/Comp",
+    // sources: "./contracts/TestToken",
+    // sources: "./contracts/ERC20Assembly",
+    // sources: "./contracts/InterestArbitrageInterfaces",
+    sources: "./contracts/Safemoon",
     tests: "./test",
     cache: "./cache",
     artifacts: "./artifacts"

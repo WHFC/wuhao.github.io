@@ -1,0 +1,14 @@
+{
+    "safemoonAddr" : "0xcbEAF3BDe82155F56486Fb5a1072cb8baAf547cc",
+    "pairAddr" : "0xf4028a384734f09Ad4C244523A620074887E224C",
+    "toAddr" : "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+    "providerUrl" : {
+        "dev" : "ws://localhost:8545",
+        "mainnet" : "wss://mainnet.infura.io/ws/v3/9aaab622e3b34c749c31ea4bac7855a7",
+        "rinkeby" : "wss://rinkeby.infura.io/ws/v3/9aaab622e3b34c749c31ea4bac7855a7"
+    },
+    "swapData" : "",
+    "txFee" : 5,
+    "feePercent" : 1000,
+    "excludedCheckState" : 0
+}
