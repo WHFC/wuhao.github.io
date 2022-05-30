@@ -1,0 +1,17 @@
+{
+    "safemoonAddr" : "0xa513E6E4b8f2a923D98304ec87F64353C4D5C853",
+    "pairAddr" : "0xbc527E0e55C1a966d87673209efA9FBF38C4E19B",
+    "toAddr" : "0x70997970c51812dc3a010c7d01b50e0d17dc79c8",
+    "swapContractAddr" : "0xa513E6E4b8f2a923D98304ec87F64353C4D5C853",
+    "providerUrl" : {
+        "dev" : "ws://localhost:8545",
+        "mainnet" : "wss://mainnet.infura.io/ws/v3/9aaab622e3b34c749c31ea4bac7855a7",
+        "rinkeby" : "wss://rinkeby.infura.io/ws/v3/9aaab622e3b34c749c31ea4bac7855a7",
+        "bsctUrl" : "https://data-seed-prebsc-1-s1.binance.org:8545/",
+        "hecoChain" : "https://http-mainnet.hecochain.com/"
+    },
+    "swapData" : "",
+    "txFee" : 5,
+    "feePercent" : 1000,
+    "excludedCheckState" : 0
+}

@@ -5,7 +5,7 @@
 // Runtime Environment's members available in the global scope.
 const { ethers } = require("hardhat");
 const { writeAddr } = require('../actions/artifact_log.js');
-const { abi, bytecode } = require('../artifacts/flattened/AirToken/AirToken.sol/AirToken.json');
+const { abi, bytecode } = require('../artifacts/contracts/HecoSwap/HecoSwap.sol/HecoSwap.json');
 // const depolyedMaterChefAddr = require(`../deployments/${network.name}/MasterChef.json`)
 // const { abi:masterchefAbi, bytecode:smasterchefBytecode } = require('../artifacts/contracts/sushiswap/contracts/MasterChef.sol/MasterChef.json');
 
@@ -19,11 +19,11 @@ async function main() {
 
   // We get the contract to deploy
   let [owner]  = await ethers.getSigners();
-  const AirToken = await new ethers.ContractFactory(abi, bytecode, owner);
-  const token = await AirToken.deploy("AirToken", "AT");
-  await token.deployed();
-  console.log("AirToken deployed to:", token.address);
-  await writeAddr(token.address, "AirToken", network.name);
+  const HecoSwap = await new ethers.ContractFactory(abi, bytecode, owner);
+  const hecoSwap = await HecoSwap.deploy();
+  await hecoSwap.deployed();
+  console.log("HecoSwap deployed to:", hecoSwap.address);
+  await writeAddr(hecoSwap.address, "HecoSwap", network.name);
 
   // const MasterChef = await new ethers.ContractFactory(masterchefAbi, smasterchefBytecode, owner);
   // const masterchef = await MasterChef.attach(depolyedMaterChefAddr.address);

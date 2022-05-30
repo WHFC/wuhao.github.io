@@ -4,39 +4,22 @@
 // When running the script with `npx hardhat run <script>` you'll find the Hardhat
 // Runtime Environment's members available in the global scope.
 const { ethers } = require("hardhat");
+const Web3 = require('web3');
 const { writeAddr } = require('../actions/artifact_log.js');
 const { abi, bytecode } = require('../artifacts/flattened/AirToken/AirToken.sol/AirToken.json');
 // const depolyedMaterChefAddr = require(`../deployments/${network.name}/MasterChef.json`)
 // const { abi:masterchefAbi, bytecode:smasterchefBytecode } = require('../artifacts/contracts/sushiswap/contracts/MasterChef.sol/MasterChef.json');
 
 async function main() {
-  // Hardhat always runs the compile task when running scripts with its command
-  // line interface.
-  //
-  // If this script is run directly using `node` you may want to call compile
-  // manually to make sure everything is compiled
-  // await hre.run('compile');
-
-  // We get the contract to deploy
   let [owner]  = await ethers.getSigners();
   const AirToken = await new ethers.ContractFactory(abi, bytecode, owner);
+  var web3 = await new Web3(Web3.givenProvider || providerUrl[network.name]);
+  let gas = await web3.eth.estimateGas({data:AirToken.getDeployTransaction().data});
+  console.log("estimate depoly gas: ", gas);
   const token = await AirToken.deploy("AirToken", "AT");
   await token.deployed();
   console.log("AirToken deployed to:", token.address);
   await writeAddr(token.address, "AirToken", network.name);
-
-  // const MasterChef = await new ethers.ContractFactory(masterchefAbi, smasterchefBytecode, owner);
-  // const masterchef = await MasterChef.attach(depolyedMaterChefAddr.address);
-  // let pid = await masterchef.poolLength();
-  // console.log("get pool length, pid: ", pid.toNumber());  
-
-  // let tx = await masterchef.add(100, token.address, false);
-  // await tx.wait();
-  // console.log("add lp token");  
-  // const token2 = await AirToken.deploy("WHToken", "WHT");
-  // await token2.deployed();
-  // console.log("WHToken deployed to:", token2.address);
-  // await writeAddr(token2.address, "WHToken", network.name);
 }
 
 // We recommend this pattern to be able to use async/await everywhere

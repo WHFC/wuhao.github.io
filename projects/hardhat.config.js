@@ -105,12 +105,21 @@ module.exports = {
     rinkeby: {
       url: networkJson.rinkebyUrl,
       accounts: nnemonic,
+    },
+    hecoChain: {
+      url: networkJson.hecoChain,
+      accounts: nnemonic,
+    },
+    bsct: {
+      url: networkJson.bsctUrl,
+      accounts: nnemonic,
     }
   },
   paths: {
     // sources: "./contracts/uniswap-v2-core-master/contracts",
     // sources: "./contracts/uniswap-v2-periphery-master/contracts",
     // sources: "./contracts/UniswapMarket",
+    // sources: "./contracts/WHERC721Token",
     // sources: "./flattened/uniswap-v2-core-master",
     // sources: "./flattened/uniswap-v2-periphery-master",
     // sources: "./flattened/AirToken",
@@ -127,7 +136,8 @@ module.exports = {
     // sources: "./contracts/TestToken",
     // sources: "./contracts/ERC20Assembly",
     // sources: "./contracts/InterestArbitrageInterfaces",
-    sources: "./contracts/Safemoon",
+    // sources: "./contracts/Safemoon",
+    sources: "./contracts/HecoSwap",
     tests: "./test",
     cache: "./cache",
     artifacts: "./artifacts"
@@ -136,7 +146,8 @@ module.exports = {
     // Your API key for Etherscan
     // Obtain one at https://etherscan.io/
     apiKey: {
-      ropsten: networkJson.scankey
+      ropsten: networkJson.scankey,
+      rinkeby: networkJson.scankey
     }
   }
 };

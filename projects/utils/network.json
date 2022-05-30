@@ -3,5 +3,7 @@
     "ropstenUrl" : "https://ropsten.infura.io/v3/9aaab622e3b34c749c31ea4bac7855a7",
     "kovanUrl" : "https://kovan.infura.io/v3/9aaab622e3b34c749c31ea4bac7855a7",
     "rinkebyUrl" : "https://rinkeby.infura.io/v3/9aaab622e3b34c749c31ea4bac7855a7",
+    "hecoChain" : "https://http-mainnet.hecochain.com/",
+    "bsctUrl" : "https://data-seed-prebsc-1-s1.binance.org:8545/",
     "scankey" : "WPE1V4551HVZ66NW314PP8Q8WX4UW7WSRP"
 }
