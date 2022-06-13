@@ -137,7 +137,8 @@ module.exports = {
     // sources: "./contracts/ERC20Assembly",
     // sources: "./contracts/InterestArbitrageInterfaces",
     // sources: "./contracts/Safemoon",
-    sources: "./contracts/HecoSwap",
+    // sources: "./contracts/HecoSwap",
+    sources: "./contracts/cake-pool",
     tests: "./test",
     cache: "./cache",
     artifacts: "./artifacts"
@@ -147,7 +148,8 @@ module.exports = {
     // Obtain one at https://etherscan.io/
     apiKey: {
       ropsten: networkJson.scankey,
-      rinkeby: networkJson.scankey
+      rinkeby: networkJson.scankey,
+      goerli: networkJson.scankey
     }
   }
 };
