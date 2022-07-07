@@ -1,0 +1,1 @@
+awk -F'\t' 'BEGIN{print "module.exports.PAIRS = ["} {print "\t{\n\t\t\"symbol\":\""$1"\",\n\t\t\"token0\":\""$2"\",\n\t\t\"token1\":\""$3"\",\n\t\t\"percent\":\""$4"\",""\n\t},"} END{ print "]"}' config/defaultlist.farm.data > config/defaultlist.farm.js

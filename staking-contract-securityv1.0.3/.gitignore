@@ -1,0 +1,10 @@
+node_modules
+
+#Hardhat files
+cache
+artifacts
+abi
+.secret
+.env
+
+.DS_Store

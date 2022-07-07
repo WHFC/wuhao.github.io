@@ -1,0 +1,68 @@
+{
+  "name": "staking-contract",
+  "version": "1.0.0",
+  "description": "",
+  "main": "hardhat.config.js",
+  "scripts": {
+    "defaultlist:token": "sh scripts/export_defaultlist_token.sh && npx hardhat deploy --tags ExportDefaultlistTokenInfo --network ethmain",
+    "defaultlist:farm": "sh scripts/export_defaultlist_farm.sh",
+    "bsctest:mock:token": "npx hardhat deploy --tags MockToken --network bsctest",
+    "bsctest:mock:swap": "npx hardhat deploy --tags MockSwap --network bsctest",
+    "bsctest:mock:pair": "npx hardhat deploy --tags MockPair --network bsctest",
+    "bsctest:export:token": "npx hardhat deploy --tags ExportToken --network bsctest",
+    "bsctest:export:farm": "npx hardhat deploy --tags ExportFarm --network bsctest",
+    "goerli:export:token": "npx hardhat deploy --tags ExportToken --network goerli",
+    "goerli:export:farm": "npx hardhat deploy --tags ExportFarm --network goerli",
+    "ethtest:verify": "hardhat --network ethtest etherscan-verify --solc-input",
+    "ethmain:verify": "hardhat --network ethmain etherscan-verify --solc-input",
+    "bsctest:verify": "hardhat --network bsctest etherscan-verify --solc-input",
+    "bscmain:verify": "hardhat --network bscmain etherscan-verify --solc-input",
+    "goerli:verify": "hardhat --network goerli etherscan-verify --solc-input"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KikiFinance/staking-contract.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/KikiFinance/staking-contract/issues"
+  },
+  "homepage": "https://github.com/KikiFinance/staking-contract#readme",
+  "dependencies": {
+    "bignumber.js": "^9.0.1",
+    "keythereum": "^1.2.0",
+    "prompt-sync": "^4.2.0",
+    "read": "^1.0.7"
+  },
+  "devDependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.0.0",
+    "@nomiclabs/hardhat-etherscan": "^3.0.3",
+    "@nomiclabs/hardhat-solhint": "^2.0.0",
+    "@nomiclabs/hardhat-waffle": "^2.0.0",
+    "@openzeppelin/contracts": "^3.4.2",
+    "@types/chai": "^4.2.15",
+    "@types/mocha": "^8.2.1",
+    "@types/node": "^14.14.31",
+    "@uniswap/v2-core": "^1.0.1",
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "concurrently": "^6.0.0",
+    "ding-robot": "^1.0.0",
+    "dotenv": "^8.2.0",
+    "ethereum-waffle": "^3.0.0",
+    "ethers": "^5.0.0",
+    "etherscan": "^0.2.2",
+    "hardhat": "^2.9.0",
+    "hardhat-abi-exporter": "^2.2.1",
+    "hardhat-deploy": "^0.7.2",
+    "hardhat-deploy-ethers": "^0.3.0-beta.7",
+    "hardhat-gas-reporter": "^1.0.4",
+    "hardhat-spdx-license-identifier": "^2.0.3",
+    "prettier": "^2.2.1",
+    "prettier-plugin-solidity": "^1.0.0-beta.5",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.2",
+    "web3": "^1.3.4"
+  }
+}
