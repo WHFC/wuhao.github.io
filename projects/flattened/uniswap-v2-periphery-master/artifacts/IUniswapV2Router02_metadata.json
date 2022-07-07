@@ -966,7 +966,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"wuhao.github.io/projects/flattened/uniswap-v2-periphery-master/UniswapV2Router02.sol": "IUniswapV2Router02"
+			"flattened/uniswap-v2-periphery-master/UniswapV2Router02.sol": "IUniswapV2Router02"
 		},
 		"evmVersion": "istanbul",
 		"libraries": {},
@@ -974,17 +974,17 @@
 			"bytecodeHash": "ipfs"
 		},
 		"optimizer": {
-			"enabled": false,
+			"enabled": true,
 			"runs": 200
 		},
 		"remappings": []
 	},
 	"sources": {
-		"wuhao.github.io/projects/flattened/uniswap-v2-periphery-master/UniswapV2Router02.sol": {
-			"keccak256": "0xbed8c68d60b9d5f2b26a0280a0aeaa3a33b9bea0c6f21a1b5192e5cf810adef3",
+		"flattened/uniswap-v2-periphery-master/UniswapV2Router02.sol": {
+			"keccak256": "0x080a391bc1b5705d77003e2f32397ae8eb98fc5c127f16545f2d388bd790d5f0",
 			"urls": [
-				"bzz-raw://c6a6cef5c6d3ef12987b40be80b4780c8f6f6c22e543780fa5fe2f75cfc593a1",
-				"dweb:/ipfs/QmZTgpfQyc6qoww8Bpc6GyhLbMLvupdoyUAPPpf9JfyjCM"
+				"bzz-raw://6bfeca2b1d72fb572d6766561712c89c80ded43b7a098909d6a89882475d67a7",
+				"dweb:/ipfs/QmSv8e78tQcjhxSXBZJiP3HpmUu3GfCBK5TLmTPVN9kydQ"
 			]
 		}
 	},

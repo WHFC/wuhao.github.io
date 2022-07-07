@@ -167,21 +167,6 @@
 				"type": "function"
 			},
 			{
-				"constant": true,
-				"inputs": [],
-				"name": "getPairInitCode",
-				"outputs": [
-					{
-						"internalType": "bytes32",
-						"name": "",
-						"type": "bytes32"
-					}
-				],
-				"payable": false,
-				"stateMutability": "pure",
-				"type": "function"
-			},
-			{
 				"constant": false,
 				"inputs": [
 					{
@@ -221,7 +206,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"wuhao.github.io/projects/flattened/uniswap-v2-core-master/UniswapV2Factory.sol": "UniswapV2Factory"
+			"flattened/uniswap-v2-core-master/UniswapV2Factory.sol": "UniswapV2Factory"
 		},
 		"evmVersion": "istanbul",
 		"libraries": {},
@@ -232,11 +217,11 @@
 		"remappings": []
 	},
 	"sources": {
-		"wuhao.github.io/projects/flattened/uniswap-v2-core-master/UniswapV2Factory.sol": {
-			"keccak256": "0xecb10e1bf0dc695bfad6a90da7b51e3617ccea73d0c3c1e022d8bebfc0af8889",
+		"flattened/uniswap-v2-core-master/UniswapV2Factory.sol": {
+			"keccak256": "0x9796dec3a2f02bce9da6c660b25133a1b7d4676977e399e565c8f40d5ff11a33",
 			"urls": [
-				"bzz-raw://22148f42b697ded9aff318be099dad6ba56c1e3caf05dfe4fc9d9b61c1cf5156",
-				"dweb:/ipfs/QmVhYohmCzd2YJfJMoEWyE8uUePFR7JKF58ZStr4YLfmrx"
+				"bzz-raw://27a10ebf78b80e3413925fb728b1ca5c07ae6989a534906147af8fda361b08c1",
+				"dweb:/ipfs/QmPpQy23UzeaoR6bgTApHefTpeVAF6vZrDtEbr7nktW1qz"
 			]
 		}
 	},
